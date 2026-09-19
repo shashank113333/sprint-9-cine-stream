@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const OMDB_API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY?.trim() || 'df009f39';
 const OMDB_BASE_URL = 'https://www.omdbapi.com';
 
@@ -27,19 +25,14 @@ export const fetchPopularMovies = async (page = 1) => {
     const topic = POPULAR_TOPICS[topicIndex];
     const subPage = ((page - 1) % 4) + 1;
 
-    const response = await axios.get(OMDB_BASE_URL, {
-      params: {
-        apikey: OMDB_API_KEY,
-        s: topic,
-        page: subPage,
-        type: 'movie',
-      },
-    });
+    const url = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(topic)}&page=${subPage}&type=movie`;
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    const data = await res.json();
 
-    if (response.data && response.data.Search) {
+    if (data && data.Search) {
       return {
         page,
-        results: response.data.Search.map(formatOmdbMovie),
+        results: data.Search.map(formatOmdbMovie),
         total_pages: 100,
       };
     }
@@ -56,20 +49,15 @@ export const searchMovies = async (query, page = 1) => {
   }
 
   try {
-    const response = await axios.get(OMDB_BASE_URL, {
-      params: {
-        apikey: OMDB_API_KEY,
-        s: query.trim(),
-        page,
-        type: 'movie',
-      },
-    });
+    const url = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(query.trim())}&page=${page}&type=movie`;
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    const data = await res.json();
 
-    if (response.data && response.data.Search) {
-      const total = parseInt(response.data.totalResults, 10) || 10;
+    if (data && data.Search) {
+      const total = parseInt(data.totalResults, 10) || 10;
       return {
         page,
-        results: response.data.Search.map(formatOmdbMovie),
+        results: data.Search.map(formatOmdbMovie),
         total_pages: Math.ceil(total / 10),
       };
     }
@@ -81,30 +69,28 @@ export const searchMovies = async (query, page = 1) => {
 };
 
 export const fetchMovieDetails = async (id) => {
-  try {
-    const response = await axios.get(OMDB_BASE_URL, {
-      params: {
-        apikey: OMDB_API_KEY,
-        i: id,
-        plot: 'full',
-      },
-    });
+  if (!id || id === 'undefined' || id === 'null') return null;
 
-    if (response.data && response.data.Response !== 'False') {
+  try {
+    const url = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}&i=${encodeURIComponent(id)}&plot=full`;
+    const res = await fetch(url, { next: { revalidate: 86400 } });
+    const data = await res.json();
+
+    if (data && data.Response !== 'False') {
       return {
-        id: response.data.imdbID,
-        title: response.data.Title,
-        year: response.data.Year,
-        rated: response.data.Rated,
-        released: response.data.Released,
-        runtime: response.data.Runtime,
-        genre: response.data.Genre,
-        director: response.data.Director,
-        actors: response.data.Actors,
-        plot: response.data.Plot,
-        poster_path: response.data.Poster !== 'N/A' ? response.data.Poster : null,
-        imdbRating: response.data.imdbRating,
-        boxOffice: response.data.BoxOffice,
+        id: data.imdbID,
+        title: data.Title,
+        year: data.Year,
+        rated: data.Rated,
+        released: data.Released,
+        runtime: data.Runtime,
+        genre: data.Genre,
+        director: data.Director,
+        actors: data.Actors,
+        plot: data.Plot,
+        poster_path: data.Poster !== 'N/A' ? data.Poster : null,
+        imdbRating: data.imdbRating,
+        boxOffice: data.BoxOffice,
       };
     }
   } catch (err) {

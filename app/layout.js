@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: '#0c0f14',
+  themeColor: '#05070d',
   width: 'device-width',
   initialScale: 1,
 };
@@ -23,21 +23,18 @@ export default function RootLayout({ children }) {
           <main style={{ flex: 1 }}>{children}</main>
           <footer
             style={{
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-              backgroundColor: '#080a0e',
-              padding: '28px 20px',
+              borderTop: '1px solid var(--border-subtle)',
+              backgroundColor: 'rgba(5, 7, 13, 0.9)',
+              padding: '24px 20px',
               textAlign: 'center',
               marginTop: '40px',
             }}
           >
-            <p style={{ fontSize: '0.95rem', fontWeight: 700, letterSpacing: '0.5px', marginBottom: '6px' }}>
-              CINE<span style={{ color: '#ff4d4f' }}>STREAM</span> — Next.js 15 Enterprise App Router
+            <p style={{ fontSize: '1rem', fontWeight: 800, letterSpacing: '0.5px', marginBottom: '4px' }}>
+              CINE<span style={{ color: '#e50914' }}>STREAM</span> — Next.js 15 Enterprise App Router
             </p>
-            <p style={{ color: '#e2e8f0', fontSize: '0.85rem', marginBottom: '4px' }}>
-              Engineered by <strong>Shashank Vishwakarma</strong> • Sprint 09 Track A Deliverable
-            </p>
-            <p style={{ color: '#94a3b8', fontSize: '0.82rem' }}>
-              Server Components • Dynamic SSR Routing • SEO generateMetadata
+            <p style={{ color: '#94a3b8', fontSize: '0.88rem' }}>
+              Engineered by <strong style={{ color: '#ffffff' }}>Shashank Vishwakarma</strong>
             </p>
           </footer>
         </div>

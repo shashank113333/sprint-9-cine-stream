@@ -7,12 +7,14 @@ import { getPosterUrl } from '../api/tmdb';
 
 export const MovieCard = ({ movie, isFavorite, onToggleFavorite }) => {
   const [imgError, setImgError] = useState(false);
-  const posterUrl = getPosterUrl(movie.poster_path);
-  const releaseYear = movie.release_date
-    ? new Date(movie.release_date).getFullYear() || movie.release_date.substring(0, 4)
+  const posterUrl = getPosterUrl(movie?.poster_path);
+  const movieId = movie?.id || movie?.imdbID;
+
+  const releaseYear = movie?.release_date
+    ? new Date(movie.release_date).getFullYear() || String(movie.release_date).substring(0, 4)
     : 'N/A';
 
-  const rating = typeof movie.vote_average === 'number'
+  const rating = typeof movie?.vote_average === 'number'
     ? movie.vote_average.toFixed(1)
     : 'NR';
 
@@ -24,14 +26,20 @@ export const MovieCard = ({ movie, isFavorite, onToggleFavorite }) => {
     }
   };
 
+  if (!movieId) return null;
+
   return (
     <div className="movie-card">
-      <Link href={`/movie/${movie.id}`} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+      <Link
+        href={`/movie/${movieId}`}
+        prefetch={true}
+        style={{ display: 'flex', flexDirection: 'column', height: '100%', textDecoration: 'none', color: 'inherit' }}
+      >
         <div className="poster-container">
           {posterUrl && !imgError ? (
             <img
               src={posterUrl}
-              alt={movie.title || 'Movie Poster'}
+              alt={movie?.title || 'Movie Poster'}
               loading="lazy"
               decoding="async"
               className="movie-poster"
@@ -40,7 +48,7 @@ export const MovieCard = ({ movie, isFavorite, onToggleFavorite }) => {
           ) : (
             <div className="fallback-poster" aria-label="Poster not available">
               <Film size={36} className="fallback-icon" />
-              <span className="fallback-title">{movie.title}</span>
+              <span className="fallback-title">{movie?.title}</span>
               <span className="fallback-text">No Poster Available</span>
             </div>
           )}
@@ -64,8 +72,8 @@ export const MovieCard = ({ movie, isFavorite, onToggleFavorite }) => {
         </div>
 
         <div className="movie-info">
-          <h3 className="movie-title" title={movie.title}>
-            {movie.title}
+          <h3 className="movie-title" title={movie?.title}>
+            {movie?.title}
           </h3>
           <div className="movie-meta">
             <span className="movie-year">{releaseYear}</span>
