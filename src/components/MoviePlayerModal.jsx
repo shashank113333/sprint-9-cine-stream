@@ -6,7 +6,6 @@ import { Play, X, Film, ExternalLink } from 'lucide-react';
 export const MoviePlayerModal = ({ movieTitle, movieYear }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Clean YouTube search link for guaranteed working trailer streaming
   const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(
     `${movieTitle} ${movieYear} official trailer`
   )}`;
@@ -64,7 +63,6 @@ export const MoviePlayerModal = ({ movieTitle, movieYear }) => {
               boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
             }}
           >
-            {/* Modal Header */}
             <div
               style={{
                 display: 'flex',
@@ -102,7 +100,6 @@ export const MoviePlayerModal = ({ movieTitle, movieYear }) => {
               </button>
             </div>
 
-            {/* Video Player Box */}
             <div
               style={{
                 padding: '40px 24px',
