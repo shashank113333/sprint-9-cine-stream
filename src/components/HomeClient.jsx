@@ -83,7 +83,6 @@ export default function HomeClient({ initialMovies = [] }) {
   }, [loading, loadingMore, page, totalPages, loadData]);
 
   const handleMovieDiscovered = (movieTitle) => {
-    setActiveMode('search');
     setSearchTerm(movieTitle);
   };
 

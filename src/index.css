@@ -342,23 +342,6 @@ body {
   transform: translateY(-2px);
 }
 
-@media (max-width: 480px) {
-  .navbar-header {
-    padding: 12px 14px;
-    margin-bottom: 20px;
-  }
-  .navbar-logo-text {
-    font-size: 1.1rem;
-  }
-  .navbar-nav {
-    gap: 8px;
-  }
-  .nav-link-item {
-    padding: 6px 12px;
-    font-size: 0.8rem;
-  }
-}
-
 .skeleton-card {
   animation: pulse-glow 1.5s infinite ease-in-out;
   border-color: rgba(255, 255, 255, 0.05);
@@ -377,4 +360,54 @@ body {
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 0.35; }
+}
+
+@media (max-width: 768px) {
+  .main-viewport {
+    padding: 16px 12px 40px;
+  }
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .movie-info {
+    padding: 10px 12px;
+  }
+  .movie-title {
+    font-size: 0.88rem;
+  }
+  .movie-meta {
+    font-size: 0.75rem;
+  }
+  .rating-badge {
+    padding: 2px 7px;
+    font-size: 0.72rem;
+  }
+  .favorite-btn {
+    width: 32px;
+    height: 32px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-header {
+    padding: 12px 14px;
+    margin-bottom: 20px;
+  }
+  .navbar-logo-text {
+    font-size: 1.1rem;
+  }
+  .navbar-nav {
+    gap: 8px;
+  }
+  .nav-link-item {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
 }
