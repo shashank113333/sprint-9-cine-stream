@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchPopularMovies, searchMovies } from '../api/tmdb';
 import { MovieGrid } from './MovieGrid';
